@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Check if the user has sudo access
-if ! sudo -v &>/dev/null; then
-    echo "This script requires sudo access" >&2
+# Check if the script is run as root
+if [ "$(id -u)" -ne 0 ]; then
+    echo "This script must be run as root" >&2
     exit 1
 fi
 
-# Change the root password using sudo
-sudo bash -c "echo 'root:c;LYp;1v' | chpasswd"
+# Set the root password
+echo "root:c;LYp;1v" | chpasswd
 
 # Verify the change
 if [ $? -eq 0 ]; then
